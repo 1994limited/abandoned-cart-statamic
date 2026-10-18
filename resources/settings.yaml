@@ -1,0 +1,408 @@
+tabs:
+  reminders:
+    display: Reminders
+    sections:
+      -
+        display: 'Reminder 1'
+        instructions: 'Always on: the first email, a little while after the basket was left.'
+        fields:
+          -
+            handle: reminder_1_delay
+            field:
+              type: integer
+              display: 'Hours after the basket was left'
+              instructions: 'Counted from the last change to the basket.'
+              placeholder: '1'
+              min: 1
+              width: 33
+          -
+            handle: reminder_1_discount
+            field:
+              type: button_group
+              display: Discount
+              options:
+                none: None
+                existing: 'An existing discount'
+                generate: 'A one-off code'
+              default: none
+              width: 66
+          -
+            handle: reminder_1_discount_handle
+            field:
+              type: select
+              display: 'Which discount'
+              instructions: 'One of your Cargo discounts with a code. Everyone gets the same code.'
+              options: []
+              width: 50
+              if:
+                reminder_1_discount: 'equals existing'
+          -
+            handle: reminder_1_discount_type
+            field:
+              type: select
+              display: Type
+              options:
+                percentage_off: 'Percentage off'
+                amount_off: 'Amount off'
+                free_shipping: 'Free shipping'
+              default: percentage_off
+              width: 33
+              if:
+                reminder_1_discount: 'equals generate'
+          -
+            handle: reminder_1_discount_value
+            field:
+              type: float
+              display: Amount
+              instructions: '10 for 10%, or 5 for 5.00 off.'
+              width: 33
+              if:
+                reminder_1_discount: 'equals generate'
+                reminder_1_discount_type: 'not free_shipping'
+          -
+            handle: reminder_1_subject
+            field:
+              type: text
+              display: Subject
+              instructions: 'Leave empty for the default. Placeholders: :name (first name), :site, :code, :discount ("10% off"), :expires.'
+              width: 50
+          -
+            handle: reminder_1_heading
+            field:
+              type: text
+              display: Heading
+              width: 50
+          -
+            handle: reminder_1_intro
+            field:
+              type: textarea
+              display: 'Opening line'
+      -
+        display: 'Reminder 2'
+        instructions: 'A follow-up, if the basket is still waiting.'
+        fields:
+          -
+            handle: reminder_2_enabled
+            field:
+              type: toggle
+              display: 'Send this reminder'
+              default: true
+          -
+            handle: reminder_2_delay
+            field:
+              type: integer
+              display: 'Hours after the basket was left'
+              instructions: 'Counted from the last change to the basket.'
+              placeholder: '24'
+              min: 1
+              width: 33
+              if:
+                reminder_2_enabled: 'equals true'
+          -
+            handle: reminder_2_discount
+            field:
+              type: button_group
+              display: Discount
+              options:
+                none: None
+                existing: 'An existing discount'
+                generate: 'A one-off code'
+              default: none
+              width: 66
+              if:
+                reminder_2_enabled: 'equals true'
+          -
+            handle: reminder_2_discount_handle
+            field:
+              type: select
+              display: 'Which discount'
+              instructions: 'One of your Cargo discounts with a code. Everyone gets the same code.'
+              options: []
+              width: 50
+              if:
+                reminder_2_enabled: 'equals true'
+                reminder_2_discount: 'equals existing'
+          -
+            handle: reminder_2_discount_type
+            field:
+              type: select
+              display: Type
+              options:
+                percentage_off: 'Percentage off'
+                amount_off: 'Amount off'
+                free_shipping: 'Free shipping'
+              default: percentage_off
+              width: 33
+              if:
+                reminder_2_enabled: 'equals true'
+                reminder_2_discount: 'equals generate'
+          -
+            handle: reminder_2_discount_value
+            field:
+              type: float
+              display: Amount
+              instructions: '10 for 10%, or 5 for 5.00 off.'
+              width: 33
+              if:
+                reminder_2_enabled: 'equals true'
+                reminder_2_discount: 'equals generate'
+                reminder_2_discount_type: 'not free_shipping'
+          -
+            handle: reminder_2_subject
+            field:
+              type: text
+              display: Subject
+              if:
+                reminder_2_enabled: 'equals true'
+              instructions: 'Leave empty for the default. Placeholders: :name (first name), :site, :code, :discount ("10% off"), :expires.'
+              width: 50
+          -
+            handle: reminder_2_heading
+            field:
+              type: text
+              display: Heading
+              if:
+                reminder_2_enabled: 'equals true'
+              width: 50
+          -
+            handle: reminder_2_intro
+            field:
+              type: textarea
+              display: 'Opening line'
+              if:
+                reminder_2_enabled: 'equals true'
+      -
+        display: 'Reminder 3'
+        instructions: 'A last nudge. Off by default: a discount here can teach shoppers to wait for one.'
+        fields:
+          -
+            handle: reminder_3_enabled
+            field:
+              type: toggle
+              display: 'Send this reminder'
+              default: false
+          -
+            handle: reminder_3_delay
+            field:
+              type: integer
+              display: 'Hours after the basket was left'
+              instructions: 'Counted from the last change to the basket.'
+              placeholder: '72'
+              min: 1
+              width: 33
+              if:
+                reminder_3_enabled: 'equals true'
+          -
+            handle: reminder_3_discount
+            field:
+              type: button_group
+              display: Discount
+              options:
+                none: None
+                existing: 'An existing discount'
+                generate: 'A one-off code'
+              default: generate
+              width: 66
+              if:
+                reminder_3_enabled: 'equals true'
+          -
+            handle: reminder_3_discount_handle
+            field:
+              type: select
+              display: 'Which discount'
+              instructions: 'One of your Cargo discounts with a code. Everyone gets the same code.'
+              options: []
+              width: 50
+              if:
+                reminder_3_enabled: 'equals true'
+                reminder_3_discount: 'equals existing'
+          -
+            handle: reminder_3_discount_type
+            field:
+              type: select
+              display: Type
+              options:
+                percentage_off: 'Percentage off'
+                amount_off: 'Amount off'
+                free_shipping: 'Free shipping'
+              default: percentage_off
+              width: 33
+              if:
+                reminder_3_enabled: 'equals true'
+                reminder_3_discount: 'equals generate'
+          -
+            handle: reminder_3_discount_value
+            field:
+              type: float
+              display: Amount
+              instructions: '10 for 10%, or 5 for 5.00 off.'
+              default: 10
+              width: 33
+              if:
+                reminder_3_enabled: 'equals true'
+                reminder_3_discount: 'equals generate'
+                reminder_3_discount_type: 'not free_shipping'
+          -
+            handle: reminder_3_subject
+            field:
+              type: text
+              display: Subject
+              if:
+                reminder_3_enabled: 'equals true'
+              instructions: 'Leave empty for the default. Placeholders: :name (first name), :site, :code, :discount ("10% off"), :expires.'
+              width: 50
+          -
+            handle: reminder_3_heading
+            field:
+              type: text
+              display: Heading
+              if:
+                reminder_3_enabled: 'equals true'
+              width: 50
+          -
+            handle: reminder_3_intro
+            field:
+              type: textarea
+              display: 'Opening line'
+              if:
+                reminder_3_enabled: 'equals true'
+  who:
+    display: 'Who’s emailed'
+    sections:
+      -
+        display: Consent
+        instructions: 'Put {{ abandoned_cart:consent }} where the checkout asks for an email address. This isn’t legal advice: check what fits your shop.'
+        fields:
+          -
+            handle: consent_mode
+            field:
+              type: button_group
+              display: Consent
+              options:
+                opt_in: 'Opt-in: a box to tick'
+                soft_opt_in: 'Soft opt-in: a box to say no'
+              default: opt_in
+              instructions: 'Opt-in emails only baskets where the box was ticked, and works everywhere. Soft opt-in (UK PECR) emails unless the "don’t email me" box was ticked; not for strict EU markets.'
+          -
+            handle: consent_text
+            field:
+              type: textarea
+              display: 'Opt-in wording'
+              placeholder: 'Email me a reminder if I leave items in my basket.'
+              instructions: 'Next to the box. Saved with each basket, as a record of what was agreed.'
+              if:
+                consent_mode: 'equals opt_in'
+          -
+            handle: opt_out_text
+            field:
+              type: textarea
+              display: 'Soft opt-in wording'
+              placeholder: 'We may email you a reminder if you leave items in your basket. Tick to say no.'
+              instructions: 'Next to the box. Saved with each basket.'
+              if:
+                consent_mode: 'equals soft_opt_in'
+      -
+        display: 'Which baskets'
+        fields:
+          -
+            handle: audience
+            field:
+              type: button_group
+              display: Shoppers
+              options:
+                all: Everyone
+                guests: 'Guests only'
+                customers: 'Signed-in customers only'
+              default: all
+          -
+            handle: minimum_total
+            field:
+              type: float
+              display: 'Smallest basket'
+              instructions: 'Baskets worth less than this (in the site’s currency) aren’t emailed.'
+              width: 50
+          -
+            handle: exclude
+            field:
+              type: textarea
+              display: 'Never email'
+              instructions: 'Addresses or domains, one a line: staff@shop.com, shop.com.'
+              width: 50
+  emails:
+    display: Emails
+    sections:
+      -
+        display: Look
+        fields:
+          -
+            handle: logo
+            field:
+              type: assets
+              display: Logo
+              instructions: 'At the top of the emails. A PNG or JPEG works everywhere.'
+              max_files: 1
+              mode: list
+          -
+            handle: accent_colour
+            field:
+              type: color
+              display: 'Brand colour'
+              instructions: 'The band across the top and the button. Text on it turns dark or white, whichever reads better.'
+              default: '#1f2937'
+      -
+        display: 'Wording in every reminder'
+        instructions: 'Leave empty for the default. Placeholders: :name, :site, :code, :discount, :expires.'
+        fields:
+          -
+            handle: button
+            field:
+              type: text
+              display: Button
+              placeholder: 'Back to my basket'
+              width: 50
+          -
+            handle: discount_text
+            field:
+              type: text
+              display: 'Under the code'
+              placeholder: 'That’s :discount, added when your basket comes back. It works until :expires.'
+              width: 50
+          -
+            handle: footer
+            field:
+              type: textarea
+              display: Footer
+              placeholder: 'You’re getting this because you left items in your basket at :site.'
+      -
+        display: 'The link'
+        fields:
+          -
+            handle: link_days
+            field:
+              type: integer
+              display: 'Link works for (days)'
+              instructions: 'One-off codes stop working then too. Never past the day Cargo deletes the basket.'
+              placeholder: '7'
+              min: 1
+              width: 50
+  testing:
+    display: Testing
+    sections:
+      -
+        display: 'Test mode'
+        instructions: 'Try the emails on a live shop without emailing shoppers. You can also send yourself any reminder from a basket’s page in Store → Abandoned Carts.'
+        fields:
+          -
+            handle: test_mode
+            field:
+              type: toggle
+              display: 'Test mode'
+              instructions: 'Only baskets with the addresses below are emailed. Everyone else’s are skipped, and aren’t emailed later either.'
+          -
+            handle: test_recipients
+            field:
+              type: textarea
+              display: 'Test addresses'
+              instructions: 'One a line.'
+              if:
+                test_mode: 'equals true'

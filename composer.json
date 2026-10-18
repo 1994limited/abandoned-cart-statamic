@@ -1,0 +1,66 @@
+{
+    "name": "1994/abandoned-cart-statamic",
+    "description": "Abandoned cart recovery for Cargo: reminder emails, with a link that brings the shopper's basket back.",
+    "type": "statamic-addon",
+    "license": "proprietary",
+    "keywords": [
+        "statamic",
+        "statamic-addon",
+        "cargo",
+        "abandoned cart",
+        "cart recovery",
+        "reminder",
+        "e-commerce"
+    ],
+    "authors": [
+        {
+            "name": "1994",
+            "email": "hello@1994.co.uk",
+            "homepage": "https://1994.co.uk"
+        }
+    ],
+    "support": {
+        "email": "hello@1994.co.uk"
+    },
+    "autoload": {
+        "psr-4": {
+            "NineteenNinetyFour\\AbandonedCart\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NineteenNinetyFour\\AbandonedCart\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "php": "^8.3",
+        "duncanmcclean/statamic-cargo": "^1.15",
+        "statamic/cms": "^6.35.1"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.20",
+        "orchestra/testbench": "^10.0|^11.0",
+        "phpunit/phpunit": "^12.0"
+    },
+    "extra": {
+        "statamic": {
+            "name": "Abandoned Cart",
+            "description": "Abandoned cart recovery for Cargo. Reminder emails with a link that brings the basket back, and what they recovered.",
+            "developer": "1994",
+            "developer-url": "https://1994.co.uk"
+        },
+        "laravel": {
+            "providers": [
+                "NineteenNinetyFour\\AbandonedCart\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
