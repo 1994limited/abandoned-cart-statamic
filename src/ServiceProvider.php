@@ -24,7 +24,7 @@ use Statamic\Statamic;
 class ServiceProvider extends AddonServiceProvider
 {
     /** The Control Panel nav icon (resources/brand/nav-icon.svg). */
-    public const ICON = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path d="M1.5 2H3L4.4 8.6A1 1 0 0 0 5.4 9.4H10.6A1 1 0 0 0 11.6 8.6L12.5 4.5H3.6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="5.75" cy="11.75" r="0.75" stroke="currentColor" stroke-width="1"></circle><circle cx="10.25" cy="11.75" r="0.75" stroke="currentColor" stroke-width="1"></circle><path d="M9.5 6.5H6.5M6.5 6.5L7.5 5.5M6.5 6.5L7.5 7.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+    public const ICON = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path d="M4.25 6.25A2.75 2.75 0 0 1 9.75 6.25" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 6.5H12" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2.75 8.5H11.25L10.4 11.75H3.6Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 
     protected $tags = [
         AbandonedCartTags::class,
