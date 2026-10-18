@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 (2026-10-18)
+
+### Changed
+- **A new icon**: the 1994 family's raspberry basket with a folded corner, in the Control Panel nav, page headers and dashboard widget, replacing the plain basket.
+
 ## 1.0.0 (2026-10-18)
 
 The first release.
