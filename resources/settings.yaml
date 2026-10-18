@@ -25,7 +25,6 @@ tabs:
                 existing: 'An existing discount'
                 generate: 'A one-off code'
               default: none
-              width: 66
           -
             handle: reminder_1_discount_handle
             field:
@@ -108,7 +107,6 @@ tabs:
                 existing: 'An existing discount'
                 generate: 'A one-off code'
               default: none
-              width: 66
               if:
                 reminder_2_enabled: 'equals true'
           -
@@ -202,7 +200,6 @@ tabs:
                 existing: 'An existing discount'
                 generate: 'A one-off code'
               default: generate
-              width: 66
               if:
                 reminder_3_enabled: 'equals true'
           -

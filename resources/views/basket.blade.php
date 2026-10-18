@@ -23,7 +23,7 @@
         .meta { display: block; font-size: 14px; color: #4b5563; }
         .price { white-space: nowrap; text-align: right; }
         .was { display: block; font-size: 13px; color: #6b7280; text-decoration: line-through; }
-        .gone { color: #9ca3af; }
+        .gone { color: #6b7280; }
         .gone .meta { color: #b45309; }
         .code { margin: 0 0 20px; padding: 12px 16px; background: #f9fafb; border: 1px dashed #9ca3af; border-radius: 8px; font-size: 14px; }
         .code strong { display: block; font-size: 18px; letter-spacing: 1px; font-family: Menlo, Consolas, monospace; color: #111827; }
