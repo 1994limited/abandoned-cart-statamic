@@ -70,7 +70,7 @@ return [
         'intro' => 'Here’s what you left at :site, at today’s prices.',
         'unavailable' => 'no longer available',
         'removed_note' => 'Anything no longer available is taken out when your basket comes back.',
-        'code' => 'Added to your basket for you.',
+        'code' => 'Added when your basket comes back.',
         'test' => 'This is a test reminder, sent from the Control Panel: the button is switched off.',
         'expired' => 'That link has expired. Your basket may still be on our site if you shop with the same browser.',
         'gone' => 'That basket isn’t around any more.',

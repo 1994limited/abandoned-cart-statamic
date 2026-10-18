@@ -126,7 +126,8 @@ class ReminderMail extends Mailable
             'site' => $this->basket->siteObject()->name(),
             'code' => (string) $this->reminder->discount_code,
             'discount' => (string) app(Discounts::class)->describe($this->step, $this->basket),
-            'expires' => $this->reminder->expires_at?->locale($this->basket->locale())->isoFormat('LL') ?? '',
+            // In the site's own style: 24 October 2026 for en_GB.
+            'expires' => $this->reminder->expires_at?->locale($this->basket->siteObject()->locale())->isoFormat('LL') ?? '',
         ];
     }
 }

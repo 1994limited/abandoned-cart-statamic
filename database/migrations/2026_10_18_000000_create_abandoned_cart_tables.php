@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('consent', 10)->nullable();
             $table->text('consent_text')->nullable();
             $table->timestamp('consent_at')->nullable();
+            $table->string('consent_field', 1)->nullable();
             $table->json('items')->nullable();
             $table->unsignedInteger('items_count')->default(0);
             $table->bigInteger('total')->default(0);

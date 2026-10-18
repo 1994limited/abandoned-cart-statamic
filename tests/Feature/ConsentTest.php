@@ -88,8 +88,46 @@ class ConsentTest extends TestCase
     }
 
     #[Test]
+    public function the_box_and_a_field_together_whichever_changed_last_counts(): void
+    {
+        $cart = $this->cart(consent: true, current: true);
+
+        // Unticked: the box says no, the field still says yes.
+        $this->postJson('/!/abandoned-cart/consent', ['consent' => '0']);
+        Cart::find($cart->id())->set('billing_address', ['city' => 'Leeds'])->save();
+        $this->assertSame('refused', $this->basket($cart)->consent);
+
+        // The field changing counts again.
+        Cart::find($cart->id())->set('abandoned_cart_consent', false)->save();
+        Cart::find($cart->id())->set('abandoned_cart_consent', true)->save();
+        $this->assertSame('given', $this->basket($cart)->consent);
+    }
+
+    #[Test]
+    public function pairs_escape_their_values_too(): void
+    {
+        $this->saveSettings(['consent_text' => 'Remind <me>']);
+        session()->flash('abandoned_cart_restored', 'Back <now>');
+        session()->flash('abandoned_cart_removed', ['<b>Book</b>']);
+
+        $this->assertSame('Remind &lt;me&gt;', $this->antlers('{{ abandoned_cart:consent }}{{ text }}{{ /abandoned_cart:consent }}'));
+        $this->assertSame('Back &lt;now&gt; &lt;b&gt;Book&lt;/b&gt;', $this->antlers('{{ abandoned_cart:restored }}{{ message }} {{ removed }}{{ name }}{{ /removed }}{{ /abandoned_cart:restored }}'));
+    }
+
+    #[Test]
+    public function two_boxes_on_a_page_get_their_own_ids(): void
+    {
+        $html = $this->antlers('{{ abandoned_cart:consent }}{{ abandoned_cart:consent }}');
+
+        preg_match_all('/id="(abandoned-cart-consent-\d+)"/', $html, $ids);
+        $this->assertCount(2, array_unique($ids[1]));
+    }
+
+    #[Test]
     public function the_restored_tag_shows_the_message_once(): void
     {
+        $this->assertSame('', $this->antlers('{{ abandoned_cart:restored }}<p>{{ message }}</p>{{ /abandoned_cart:restored }}'));
+
         session()->flash('abandoned_cart_restored', 'Your basket’s back.');
         session()->flash('abandoned_cart_removed', ['Coral Arithmetic']);
 

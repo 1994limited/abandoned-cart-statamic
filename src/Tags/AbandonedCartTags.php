@@ -18,6 +18,9 @@ class AbandonedCartTags extends Tags
 {
     protected static $handle = 'abandoned_cart';
 
+    /** Boxes on the page so far, for their ids. */
+    protected static int $boxes = 0;
+
     /**
      * {{ abandoned_cart:consent }}: a ready-made box that saves itself when
      * it's ticked. As a pair, the parts for your own markup:
@@ -43,8 +46,10 @@ class AbandonedCartTags extends Tags
     {
         $message = session('abandoned_cart_restored');
 
+        // Nothing to say: a pair given an empty array would still show its
+        // contents once, so it's given nothing at all.
         if (! is_string($message) || $message === '') {
-            return $this->isPair ? [] : '';
+            return '';
         }
 
         if (! $this->isPair) {
@@ -52,8 +57,8 @@ class AbandonedCartTags extends Tags
         }
 
         return [
-            'message' => $message,
-            'removed' => collect((array) session('abandoned_cart_removed', []))->map(fn ($name) => ['name' => $name])->all(),
+            'message' => e($message),
+            'removed' => collect((array) session('abandoned_cart_removed', []))->map(fn ($name) => ['name' => e((string) $name)])->all(),
         ];
     }
 
@@ -70,7 +75,7 @@ class AbandonedCartTags extends Tags
             'mode' => $mode,
             'opt_in' => $optIn,
             'soft_opt_in' => ! $optIn,
-            'text' => Consent::text(),
+            'text' => e(Consent::text()),
             // Opt-in: ticked means yes. Soft opt-in: ticked means no.
             'checked' => $optIn ? $given === true : $given === false,
             'name' => $optIn ? 'abandoned_cart_consent' : 'abandoned_cart_opt_out',
@@ -85,7 +90,7 @@ class AbandonedCartTags extends Tags
     protected function consentHtml(array $data): string
     {
         $class = e($this->params->get('class', 'abandoned-cart-consent'));
-        $id = 'abandoned-cart-'.substr(md5((string) microtime(true)), 0, 6);
+        $id = 'abandoned-cart-consent-'.++self::$boxes;
 
         $input = sprintf(
             '<input type="checkbox" id="%s" name="%s" value="1" data-abandoned-cart-consent="%s" data-mode="%s" data-token="%s"%s>',
@@ -115,7 +120,7 @@ class AbandonedCartTags extends Tags
 </script>
 JS;
 
-        return sprintf('<label class="%s" for="%s">%s <span>%s</span></label>', $class, $id, $input, e($data['text'])).$script;
+        return sprintf('<label class="%s" for="%s">%s <span>%s</span></label>', $class, $id, $input, $data['text']).$script;
     }
 
     /**

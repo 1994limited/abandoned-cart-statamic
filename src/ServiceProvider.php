@@ -214,7 +214,7 @@ class ServiceProvider extends AddonServiceProvider
         }
 
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-            $schedule->command('abandoned-cart:send')->everyFiveMinutes()->withoutOverlapping();
+            $schedule->command('abandoned-cart:send')->everyMinute()->withoutOverlapping();
             $schedule->command('abandoned-cart:prune')->daily()->withoutOverlapping();
         });
     }

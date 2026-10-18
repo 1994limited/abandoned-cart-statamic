@@ -98,6 +98,16 @@ class EmailsTest extends TestCase
     }
 
     #[Test]
+    public function dates_are_in_the_sites_own_style(): void
+    {
+        config(['abandoned-cart.reminders.0.discount' => ['type' => 'free_shipping']]);
+
+        $reminder = $this->remind($this->cart());
+
+        Mail::assertSent(ReminderMail::class, fn (ReminderMail $mail) => str_contains($mail->render(), 'That’s free delivery, added when your basket comes back. It works until '.$reminder->expires_at->format('j F Y').'.'));
+    }
+
+    #[Test]
     public function a_bcc_gets_a_copy(): void
     {
         config(['abandoned-cart.email.bcc' => 'copies@dogear.test']);

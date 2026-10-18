@@ -240,7 +240,7 @@ class BasketsController extends CpController
             ->when($show === 'waiting', fn ($q) => $q->where('status', Status::Open->value)->where('reminders_sent', 0)->whereNull('skip_reason'))
             ->when($show === 'emailed', fn ($q) => $q->where('reminders_sent', '>', 0))
             ->when($show === 'not_emailed', fn ($q) => $q->where('reminders_sent', 0)->whereNotNull('skip_reason'))
-            ->when($show === 'recovered', fn ($q) => $q->whereIn('status', [Status::Recovered->value, Status::Cancelled->value]))
+            ->when($show === 'recovered', fn ($q) => $q->where('status', Status::Recovered->value))
             ->when($show === 'ordered', fn ($q) => $q->where('status', Status::Ordered->value));
     }
 

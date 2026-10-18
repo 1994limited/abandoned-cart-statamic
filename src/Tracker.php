@@ -224,11 +224,14 @@ class Tracker
     protected function readConsent(Cart $cart, Basket $basket): void
     {
         $value = $cart->get(self::FIELD);
+        $given = $value === null || $value === '' ? null : filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE);
 
-        if ($value !== null && $value !== '') {
-            $given = filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE);
-
-            if ($given !== null && ($basket->consent === null || ($basket->consent === 'given') !== $given)) {
+        if ($given !== null) {
+            // Only a change to the field counts: the box may have been
+            // answered since (an unticked checkbox sends nothing, so the
+            // field would otherwise put back an old "yes").
+            if ($basket->consent_field !== ($given ? '1' : '0')) {
+                $basket->consent_field = $given ? '1' : '0';
                 $this->setConsent($basket, $given, Consent::text());
             }
 
