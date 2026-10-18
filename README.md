@@ -2,6 +2,8 @@
 
 Abandoned cart recovery for [Cargo](https://builtwithcargo.dev). When a shopper leaves items in their basket, they get up to three reminder emails. The link in each brings their basket back, at today's prices, with a discount code if you choose one. You see what was left, what was sent, and what came back as orders.
 
+![Abandoned Cart for Statamic and Cargo](docs/marketplace/cover-1600x900.png)
+
 ## Features
 
 - **Up to three reminders.** Each a set number of hours after the basket last changed. A basket that changes starts the clock again, and nobody gets the same reminder twice.
