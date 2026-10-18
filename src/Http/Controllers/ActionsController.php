@@ -126,17 +126,23 @@ class ActionsController extends Controller
             ->with('abandoned_cart_removed', $removed);
     }
 
-    public function unsubscribePage(string $reminder): Response
+    public function unsubscribePage(Request $request, string $reminder): Response
     {
         $reminder = Reminder::with('basket')->find($reminder);
         $email = $reminder?->email ?? $reminder?->basket?->email;
+        $hash = $this->hash($request, $reminder);
 
-        if (! $email) {
+        if (! $hash) {
             return $this->page('unsubscribed_title', __('abandoned-cart::messages.already_unsubscribed'));
         }
 
-        return $this->page('unsubscribe_title', __('abandoned-cart::messages.page.unsubscribe_text', ['email' => $email]), $reminder->basket, [
-            'action' => $reminder->unsubscribePostUrl(),
+        // The address once it's been removed from the records: "this address".
+        $text = $email
+            ? __('abandoned-cart::messages.page.unsubscribe_text', ['email' => $email])
+            : __('abandoned-cart::messages.page.unsubscribe_text_anonymous');
+
+        return $this->page('unsubscribe_title', $text, $reminder?->basket, [
+            'action' => $request->fullUrl(),
             'button' => __('abandoned-cart::messages.page.unsubscribe_button'),
         ]);
     }
@@ -145,10 +151,12 @@ class ActionsController extends Controller
     {
         $reminder = Reminder::with('basket')->find($reminder);
         $email = $reminder?->email ?? $reminder?->basket?->email;
+        $hash = $this->hash($request, $reminder);
 
-        // Forgotten since the email (or a test): nothing left to stop.
         if ($email) {
             $this->abandonedCart->unsubscribe($email);
+        } elseif ($hash) {
+            $this->abandonedCart->unsubscribeHash($hash);
         }
 
         // Mail apps' one-click unsubscribe just needs a 200.
@@ -156,7 +164,26 @@ class ActionsController extends Controller
             return response('', 200);
         }
 
+        // A test reminder (sent from the Control Panel): nothing to stop.
+        if (! $email && ! $hash) {
+            return $this->page('unsubscribed_title', __('abandoned-cart::messages.already_unsubscribed'), $reminder?->basket);
+        }
+
         return $this->page('unsubscribed_title', __('abandoned-cart::messages.unsubscribed'), $reminder?->basket);
+    }
+
+    /**
+     * The address's hash: from the signed link, or the reminder.
+     */
+    protected function hash(Request $request, ?Reminder $reminder): ?string
+    {
+        $hash = $this->text($request, 'h', 64);
+
+        if (is_string($hash) && preg_match('/^[0-9a-f]{64}$/', $hash)) {
+            return $hash;
+        }
+
+        return $reminder?->email_hash;
     }
 
     /**

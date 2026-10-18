@@ -28,15 +28,31 @@ class Prune extends Command
                 ->where('cart_updated_at', '<', now()->subDays((int) $days))
                 ->pluck('id');
 
+            // Everything that could lead back to the shopper goes: who, what
+            // they bought, the cart and order it can be matched to, and the
+            // codes. Totals, dates, counts and outcomes stay, for the reports.
             $ids->chunk(500)->each(function ($chunk) use (&$anonymised) {
-                Reminder::query()->whereIn('abandoned_cart_id', $chunk)->update(['email' => null]);
-                $anonymised += Basket::query()->whereKey($chunk)->update([
+                Reminder::query()->whereIn('abandoned_cart_id', $chunk)->update([
                     'email' => null,
-                    'name' => null,
-                    'user_id' => null,
-                    'customer_id' => null,
-                    'anonymised_at' => now(),
+                    'email_hash' => null,
+                    'discount_code' => null,
+                    'discount_handle' => null,
                 ]);
+
+                foreach ($chunk as $id) {
+                    $anonymised += Basket::query()->whereKey($id)->update([
+                        'cart_id' => 'anonymised-'.$id,
+                        'email' => null,
+                        'name' => null,
+                        'user_id' => null,
+                        'customer_id' => null,
+                        'consent_text' => null,
+                        'items' => null,
+                        'order_id' => null,
+                        'order_reference' => null,
+                        'anonymised_at' => now(),
+                    ]);
+                }
             });
         }
 

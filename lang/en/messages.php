@@ -82,6 +82,7 @@ return [
     'page' => [
         'unsubscribe_title' => 'Unsubscribe?',
         'unsubscribe_text' => 'Stop basket reminders to :email?',
+        'unsubscribe_text_anonymous' => 'Stop basket reminders to this email address?',
         'unsubscribe_button' => 'Unsubscribe',
         'unsubscribed_title' => 'Unsubscribed',
         'expired_title' => 'Link expired',

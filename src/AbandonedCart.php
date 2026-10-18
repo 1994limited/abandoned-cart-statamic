@@ -47,6 +47,15 @@ class AbandonedCart
     }
 
     /**
+     * Unsubscribe an address known only by its hash (the link in an old
+     * email, after the address was removed from the records).
+     */
+    public function unsubscribeHash(string $hash): void
+    {
+        Suppression::addHash($hash);
+    }
+
+    /**
      * Take an address off the unsubscribed list.
      */
     public function lift(string $email): void

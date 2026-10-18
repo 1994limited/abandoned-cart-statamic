@@ -21,7 +21,9 @@ The email address comes from the cart: what the shopper typed at the checkout's 
 - it hasn't been ordered, and the shopper hasn't ordered since;
 - Cargo isn't about to delete it.
 
-Just before each email, the cart is looked at again: if it's been ordered, deleted, or changed in a way the addon didn't hear about, nothing is sent.
+Just before each email, the cart is looked at again: if it's been ordered, deleted, or changed (even while the email was being made), nothing is sent.
+
+**Changing the reminders.** Which reminders a basket has had is read from what was sent. Turn a reminder off, another on, or change the hours, and baskets already part way through get the ones they haven't had, in order. None is sent twice.
 
 ## Why a basket wasn't emailed
 
@@ -63,7 +65,7 @@ To see a reminder without waiting, send yourself one from any basket's page: see
 
 ## How many at once
 
-No more than `per_minute` reminders (120) go in a minute, for mail providers with a limit. When a run reaches it, it stops, and the rest go with the next run, a minute later. Each run also looks at no more than 500 baskets.
+No more than `per_minute` reminders (120) go in a minute, for mail providers with a limit. When a run reaches it, it stops, and the rest go with the next run, a minute later. Later reminders go first, and each reminder looks at no more than 500 baskets a run, so a busy day's first reminders don't hold up the second and third.
 
 If an email can't be sent (the mail server is down), nothing is recorded, any one-off code is deleted, and it's tried again on the next run. A run that stopped half way (the server restarted) leaves its baskets for an hour, then they're tried again. Two runs at once can't email the same basket.
 

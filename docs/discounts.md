@@ -22,9 +22,9 @@ Each reminder gets its own code, like `COMEBACK-7KQ2XM` (the prefix is `discount
 
 - works once;
 - works only for that shopper: the basket's customer (a guest's email address, or a customer account);
-- works until the end of the day the link in the reminder expires.
+- works until the link in the reminder expires. Cargo's end date is a whole day, so the addon deletes the code when the link expires (`abandoned-cart:send` checks every minute).
 
-Unused one-off codes are deleted by `abandoned-cart:prune` a day after they expire. Used ones are kept.
+Unused one-off codes are deleted as soon as their link expires. Used ones are kept.
 
 If a code can't be made, the reminder goes without one (and the reason is logged): better a reminder without a code than none. If the email can't be sent, its code is deleted.
 

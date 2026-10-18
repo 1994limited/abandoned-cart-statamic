@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\URL;
  * @property int $abandoned_cart_id
  * @property int $step 1, 2 or 3: which of the reminders in the settings
  * @property string|null $email
+ * @property string|null $email_hash
  * @property bool $test
  * @property string|null $discount_handle
  * @property string|null $discount_code
@@ -67,16 +68,26 @@ class Reminder extends Model
     }
 
     /**
-     * Unsubscribing never expires.
+     * Unsubscribing never expires. The link carries the address's hash
+     * (signed, so it can't be changed), so it still works once the address
+     * has been removed from the records, or the records deleted.
      */
     public function unsubscribeUrl(): string
     {
-        return URL::signedRoute('statamic.abandoned-cart.unsubscribe', ['reminder' => $this->id]);
+        return URL::signedRoute('statamic.abandoned-cart.unsubscribe', $this->unsubscribeParameters());
     }
 
     public function unsubscribePostUrl(): string
     {
-        return URL::signedRoute('statamic.abandoned-cart.unsubscribe.post', ['reminder' => $this->id]);
+        return URL::signedRoute('statamic.abandoned-cart.unsubscribe.post', $this->unsubscribeParameters());
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function unsubscribeParameters(): array
+    {
+        return array_filter(['reminder' => $this->id, 'h' => $this->email_hash]);
     }
 
     public function hasExpired(): bool

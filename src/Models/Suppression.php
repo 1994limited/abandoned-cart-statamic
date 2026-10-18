@@ -28,7 +28,12 @@ class Suppression extends Model
 
     public static function add(string $email): void
     {
-        static::query()->firstOrCreate(['email_hash' => self::hash($email)]);
+        self::addHash(self::hash($email));
+    }
+
+    public static function addHash(string $hash): void
+    {
+        static::query()->firstOrCreate(['email_hash' => $hash]);
     }
 
     public static function lift(string $email): void

@@ -4,6 +4,7 @@ namespace NineteenNinetyFour\AbandonedCart;
 
 use DuncanMcClean\Cargo\Contracts\Cart\Cart;
 use DuncanMcClean\Cargo\Facades\Cart as Carts;
+use DuncanMcClean\Cargo\Facades\Discount as Discounts;
 use DuncanMcClean\Cargo\Orders\LineItem;
 use NineteenNinetyFour\AbandonedCart\Cargo\Carts as CartReader;
 use NineteenNinetyFour\AbandonedCart\Events\CartRestored;
@@ -92,9 +93,12 @@ class Restorer
      */
     public function restore(Reminder $reminder, Cart $cart): array
     {
-        // Cargo keeps a cart per site, named by the site it reads from the
-        // request: an email link has none, so set it.
+        // Cargo keeps a cart per site, and works out the site from the
+        // request's Referer first, then the current site. The button posts
+        // from the addon's page (on the default site's address), so both
+        // are pointed at the basket's own site.
         Site::setCurrent($cart->site()->handle());
+        request()->headers->set('referer', $cart->site()->absoluteUrl());
 
         $removed = [];
 
@@ -106,7 +110,9 @@ class Restorer
             }
         }
 
-        if ($reminder->discount_code && ! $cart->get('discount_code')) {
+        // The reminder's code, unless the shopper has a working one of
+        // their own already (a code that's gone or expired doesn't count).
+        if ($reminder->discount_code && ! $this->hasWorkingCode($cart)) {
             $cart->set('discount_code', $reminder->discount_code);
         }
 
@@ -125,6 +131,24 @@ class Restorer
         CartRestored::dispatch($reminder);
 
         return $removed;
+    }
+
+    protected function hasWorkingCode(Cart $cart): bool
+    {
+        $code = $cart->get('discount_code');
+
+        if (! is_string($code) || $code === '') {
+            return false;
+        }
+
+        try {
+            $discount = Discounts::findByDiscountCode($code);
+            $type = $discount?->discountType();
+        } catch (Throwable) {
+            return false;
+        }
+
+        return $type !== null && $cart->lineItems()->contains(fn (LineItem $item) => $type->isValidForLineItem($cart, $item));
     }
 
     protected function safely(callable $callback): mixed

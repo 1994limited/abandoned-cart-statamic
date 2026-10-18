@@ -30,7 +30,7 @@ Cargo keeps its own carts and orders, with the same address, as before. The addo
 
 | | After the basket last changed |
 | --- | --- |
-| The email address, name and account ids are removed, from the basket and its reminders. What was in it, the totals and the order stay, for the reports. | 90 days |
+| Everything that leads back to the shopper is removed: the email address, name and account ids, what was in the basket, the consent wording, the cart and order it can be matched to, and the discount codes. The totals, dates, counts and outcome stay, for the reports. The unsubscribe link in old emails still works. | 90 days |
 | The basket and its reminders are deleted. | 365 days |
 
 Change these with `retention` in the [config](configuration.md). `null` keeps them.

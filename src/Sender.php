@@ -47,19 +47,19 @@ class Sender
         $this->releaseStuck();
         $this->skipExpiring();
 
+        // One-off codes stop working when their link does.
+        $this->discounts->pruneExpired();
+
         $steps = Settings::steps();
         $sent = 0;
-        $looked = 0;
 
-        foreach ($steps as $index => $step) {
+        // Latest reminders first, each with its own share of the run, so a
+        // busy shop's first reminders can't hold up its later ones.
+        foreach (array_reverse($steps, true) as $index => $step) {
             $previous = $index > 0 ? $steps[$index - 1]->delay : 0;
             $gap = max(1, min(self::MAX_GAP, $step->delay - $previous));
 
-            $baskets = $this->due($index, $step, $gap)->limit(self::BATCH - $looked)->get();
-
-            foreach ($baskets as $basket) {
-                $looked++;
-
+            foreach ($this->due(array_slice($steps, 0, $index), $step, $gap)->limit(self::BATCH)->get() as $basket) {
                 if (RateLimiter::tooManyAttempts(self::RATE_KEY, Settings::perMinute())) {
                     return $sent;
                 }
@@ -68,29 +68,35 @@ class Sender
                     $sent++;
                 }
             }
-
-            if ($looked >= self::BATCH) {
-                break;
-            }
         }
 
         return $sent;
     }
 
     /**
-     * Baskets due their reminder at this place in the sequence.
+     * Baskets due a reminder: they haven't had it, they've had every one
+     * before it, and it's been long enough. Which reminders a basket has
+     * had is read from what was sent, so changing the reminders in the
+     * settings never repeats one or skips one.
+     *
+     * @param  array<int, Step>  $earlier
      */
-    protected function due(int $index, Step $step, int $gap): Builder
+    protected function due(array $earlier, Step $step, int $gap): Builder
     {
-        return Basket::query()
+        $query = Basket::query()
             ->where('status', Status::Open->value)
             ->whereNull('skip_reason')
             ->whereNull('claimed_at')
             ->where('items_count', '>', 0)
-            ->where('reminders_sent', $index)
             ->where('cart_updated_at', '<=', now()->subHours($step->delay))
             ->where(fn ($query) => $query->whereNull('last_reminder_at')->orWhere('last_reminder_at', '<=', now()->subHours($gap)))
-            ->orderBy('cart_updated_at');
+            ->whereDoesntHave('reminders', fn ($query) => $query->where('test', false)->where('step', $step->number));
+
+        foreach ($earlier as $before) {
+            $query->whereHas('reminders', fn ($query) => $query->where('test', false)->where('step', $before->number));
+        }
+
+        return $query->orderBy('cart_updated_at');
     }
 
     /**
@@ -142,12 +148,13 @@ class Sender
             return false;
         }
 
+        $this->stale = false;
         $reminder = $this->email($basket, $step);
 
         if (! $reminder) {
-            $basket->forceFill(['claimed_at' => null])->save();
+            Basket::query()->whereKey($basket->id)->update(['claimed_at' => null]);
 
-            return null;
+            return $this->stale ? false : null;
         }
 
         $basket->forceFill([
@@ -208,6 +215,7 @@ class Sender
         $reminder = $basket->reminders()->create([
             'step' => $step->number,
             'email' => $test ? null : $basket->email,
+            'email_hash' => $test ? null : Suppression::hash((string) $basket->email),
             'test' => $test,
             'discount_handle' => $discount[0] ?? null ?: null,
             'discount_code' => $discount[1] ?? null,
@@ -215,6 +223,15 @@ class Sender
             'sent_at' => now(),
             'expires_at' => $expires,
         ]);
+
+        // Ordered or changed while the code was being made: don't send.
+        if (! $test && ! $this->unchanged($basket)) {
+            $this->discounts->deleteUnused($reminder->discount_generated ? $reminder->discount_handle : null);
+            $reminder->delete();
+            $this->stale = true;
+
+            return null;
+        }
 
         if (! $test) {
             RateLimiter::hit(self::RATE_KEY, 60);
@@ -238,6 +255,21 @@ class Sender
         }
 
         return $reminder;
+    }
+
+    /** Whether the last email was dropped because the basket changed. */
+    protected bool $stale = false;
+
+    /**
+     * Whether the basket is still open and as it was when it was claimed.
+     */
+    protected function unchanged(Basket $basket): bool
+    {
+        return Basket::query()
+            ->whereKey($basket->id)
+            ->where('status', Status::Open->value)
+            ->where('cart_updated_at', $basket->cart_updated_at)
+            ->exists();
     }
 
     /**

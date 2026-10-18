@@ -56,6 +56,9 @@ return new class extends Migration
             $table->foreignId('abandoned_cart_id')->constrained('abandoned_carts')->cascadeOnDelete();
             $table->unsignedTinyInteger('step');
             $table->string('email')->nullable();
+            // The address as the unsubscribed list keeps it, so the link
+            // in the email works after the address itself is removed.
+            $table->string('email_hash', 64)->nullable();
             $table->boolean('test')->default(false);
             $table->string('discount_handle')->nullable();
             $table->string('discount_code')->nullable();
@@ -68,6 +71,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['test', 'sent_at']);
+            $table->index(['abandoned_cart_id', 'step']);
         });
 
         // Addresses that unsubscribed, hashed: never emailed again.

@@ -115,7 +115,9 @@ class Discounts
     }
 
     /**
-     * One-off discounts that expired unused. Returns how many were deleted.
+     * One-off discounts whose link has expired, unused: deleted, so they
+     * stop working with the link (Cargo's end date is only a day). Runs
+     * with every send. Returns how many were deleted.
      */
     public function pruneExpired(): int
     {
@@ -124,7 +126,7 @@ class Discounts
         Reminder::query()
             ->where('discount_generated', true)
             ->whereNotNull('discount_handle')
-            ->where('expires_at', '<', now()->subDay())
+            ->where('expires_at', '<', now())
             ->each(function (Reminder $reminder) use (&$deleted) {
                 $discount = $this->find($reminder->discount_handle);
 
