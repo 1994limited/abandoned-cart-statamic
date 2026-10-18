@@ -1,5 +1,7 @@
 # Emails
 
+![A reminder email, with the basket and a one-off code](images/email.png)
+
 Up to three reminders per basket, all from your site's mailer. Each has:
 
 - a heading and an opening line;

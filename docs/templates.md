@@ -10,6 +10,8 @@ Every example below is Antlers, with the same thing in Blade under **Blade**: cl
 
 ## The box in Cargo's prebuilt checkout
 
+![The consent box under the email field in Cargo's prebuilt checkout](images/checkout.png)
+
 If you use Cargo's prebuilt checkout, publish its views so you can edit them:
 
 ```bash
@@ -55,6 +57,8 @@ What happens:
 The box is a `<label class="abandoned-cart-consent">` with the checkbox and a `<span>` of wording inside. Style it with that class, or give your own: `{{ abandoned_cart:consent class="consent" }}`.
 
 ## Signed-in customers
+
+![The consent box on the demo's basket page](images/cart.png)
 
 Cargo's prebuilt customer step shows only to guests: a signed-in customer's name and email come from their account, so they skip it. Put the box on your basket page for them:
 
@@ -123,6 +127,8 @@ document.querySelectorAll('[data-consent-url]').forEach((box) => {
 Or save it with your checkout form, through a field on Cargo's order blueprint (see [Consent](consent.md#an-order-blueprint-field)).
 
 ## "Your basket's back"
+
+![The basket page after a basket comes back, with the message](images/restored.png)
 
 The button on the page a reminder's link opens brings the basket back, then goes to your checkout (`redirect` in the [config](configuration.md)), with a message: "Your basket's back. Pick up where you left off." If anything had sold out, it says what was taken out. Show it on your checkout and basket pages:
 

@@ -4,6 +4,8 @@ The button in a reminder ("Back to my basket") brings the shopper's basket back,
 
 ## The link, the page, the button
 
+![The page the link opens: the basket at today's prices, with the button](images/basket-page.png)
+
 1. **The link** in the email opens a page on your site: the basket as it is now, at today's prices, with anything no longer available marked, any discount code, and a button.
 2. **The button** makes it the shopper's basket again, and goes to your checkout with a message (see [Templates](templates.md#your-baskets-back)).
 

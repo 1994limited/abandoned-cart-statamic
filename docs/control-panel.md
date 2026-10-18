@@ -2,6 +2,8 @@
 
 ## Store → Abandoned Carts
 
+![Store → Abandoned Carts](images/cp-index.png)
+
 The baskets left, latest first: who left it (their email address, name, and whether they're a guest or a customer), its total and number of items, when it was left, the reminders sent (and "clicked" if the button in one was used), and its status. A basket that wasn't emailed shows why; an ordered one shows its order number.
 
 At the top, the numbers for the period: the last 7, 30 (the default) or 90 days, or all time, by when the basket last changed. Under them, why baskets weren't emailed, with how many of each.
@@ -40,6 +42,8 @@ Because recovered orders are counted by order date, and emailed baskets by when 
 
 ## A basket
 
+![A basket's page: its items, reminders, consent and order](images/cp-show.png)
+
 Click a basket to see:
 
 - **Basket**: what was in it when it last changed, and the total.
@@ -63,6 +67,8 @@ The statuses:
 | Deleted | Deleted by Cargo before any reminder went. |
 
 ## The dashboard widget
+
+![The Abandoned carts dashboard widget](images/cp-dashboard.png)
 
 "Abandoned carts": the last 30 days' baskets abandoned, emailed, brought back and recovered, and the revenue. It shows the scheduler warning too. Add it to `config/statamic/cp.php`:
 

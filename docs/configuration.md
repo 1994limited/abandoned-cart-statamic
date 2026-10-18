@@ -2,6 +2,8 @@
 
 ## In the Control Panel
 
+![Tools → Addons → Abandoned Cart → Settings](images/cp-settings.png)
+
 Tools → Addons → Abandoned Cart → Settings (`/cp/addons/abandoned-cart-statamic/settings`), or **Settings** on Store → Abandoned Carts. Anything left empty uses `config/abandoned-cart.php`, or the default wording in the site's language.
 
 **Reminders**

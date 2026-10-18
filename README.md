@@ -18,6 +18,10 @@ Abandoned cart recovery for [Cargo](https://builtwithcargo.dev). When a shopper 
 - **Multisite.** Emails in the language of the site the basket was on, and the basket brought back on that site.
 - **Yours to change.** Wording, logo and colour in the Control Panel. Publish the emails to change anything else. Events and a PHP API.
 
+| | | |
+| --- | --- | --- |
+| ![The consent box at the checkout](docs/images/checkout.png) | ![A reminder email](docs/images/email.png) | ![Store → Abandoned Carts](docs/images/cp-index.png) |
+
 ## Requirements
 
 - Statamic 6.35.1 or later, with Cargo 1.15 or later.
