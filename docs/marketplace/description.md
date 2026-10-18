@@ -1,40 +1,40 @@
-**Abandoned cart recovery for Cargo. When a shopper leaves items in their basket, they get up to three reminder emails, and the link in each brings their basket back, at today's prices, with a discount code if you choose one. You see what was left, what was sent, and what came back as orders.**
-
-## Consent built in
-
-One tag adds the box to your checkout. Opt-in (a box to tick, which works everywhere) or UK soft opt-in (a box to say no). Each basket keeps the wording the shopper saw, and when.
+**Abandoned cart recovery for [Cargo](https://builtwithcargo.dev). When a shopper leaves items in their basket, they get up to three reminder emails. The link in each brings their basket back, at today's prices, with a discount code if you choose one. You see what was left, what was sent, and what came back as orders.**
 
 ## Up to three reminders
 
-Each a set number of hours after the basket last changed: an hour, a day, three days, or whatever suits you. A basket that changes starts the clock again, and nobody gets the same reminder twice.
+Each a set number of hours after the basket last changed. A basket that changes starts the clock again, and nobody gets the same reminder twice.
+
+## Consent built in
+
+One tag adds the box to your checkout: opt-in (a box to tick), or UK soft opt-in (a box to say no). Each basket keeps the wording the shopper saw, and when.
 
 ## The basket comes back
 
-The link opens the basket as it is now, with a button that makes it the shopper's basket again, on the right site. Prices are checked, anything sold out is taken out, and the code is added. Mail apps' link checkers can't do it for them. A customer account's basket only comes back for that customer, signed in.
+The link opens the basket as it is now, with a button that makes it the shopper's basket again. Prices are checked, anything sold out is taken out, and the code is added.
 
 ## Discount codes, if you want them
 
-One of your Cargo discounts, or a one-off code made for each email: it works once, only for that shopper, and stops when the link expires.
+One of your Cargo discounts, or a one-off code made for each email: it works once, only for that shopper, until the link expires.
 
 ## Only the right baskets
 
-Guests, signed-in customers or both. A smallest basket, a never-email list, and a test mode that emails only you. Send yourself any reminder from the Control Panel.
+Guests, signed-in customers or both. A smallest basket, a never-email list, and a test mode that emails only you.
 
 ## Stops when it should
 
-An order, an empty or deleted basket, an unsubscribe: no more reminders.
+An order, a basket emptied or deleted, an unsubscribe: no more reminders.
 
 ## One-click unsubscribe
 
-In the email, and in the headers mail apps use. No open-tracking pixel.
+In the email and in the headers mail apps use. No open-tracking pixel.
 
 ## Recovery in the Control Panel
 
-**Store → Abandoned Carts**: baskets left, emailed, brought back and recovered, the revenue, and why a basket wasn't emailed. Each basket's reminders, codes and clicks. A dashboard widget and CSV download.
+**Store → Abandoned Carts**: baskets left, emailed, brought back and recovered, the revenue, and why a basket wasn't emailed. A dashboard widget and CSV download.
 
 ## Privacy
 
-Email addresses and anything else that leads back to the shopper are removed after 90 days, and records deleted after a year. Forget an address with one command.
+Email addresses are removed after 90 days and records deleted after a year. Forget an address with one command. No IP addresses kept.
 
 ## Multisite
 
@@ -42,7 +42,7 @@ Emails in the language of the site the basket was on, and the basket brought bac
 
 ## Yours to change
 
-Wording, logo and colour in the Control Panel. Publish the emails and pages to change anything else. Events and a PHP API.
+Wording, logo and colour in the Control Panel. Publish the emails to change anything else. Events and a PHP API.
 
 ## Requirements
 
