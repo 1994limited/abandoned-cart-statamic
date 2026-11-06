@@ -2,7 +2,7 @@
 
 Abandoned cart recovery for [Cargo](https://builtwithcargo.dev). When a shopper leaves items in their basket, they get up to three reminder emails. The link in each brings their basket back, at today's prices, with a discount code if you choose one. You see what was left, what was sent, and what came back as orders.
 
-![Abandoned Cart for Statamic and Cargo](docs/marketplace/cover-1600x900.png)
+![Abandoned Cart for Statamic and Cargo](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/cover-1600x900.png)
 
 ## Features
 
@@ -20,7 +20,7 @@ Abandoned cart recovery for [Cargo](https://builtwithcargo.dev). When a shopper 
 
 | | | |
 | --- | --- | --- |
-| ![The consent box at the checkout](docs/images/checkout.png) | ![A reminder email](docs/images/email.png) | ![Store → Abandoned Carts](docs/images/cp-index.png) |
+| ![The consent box at the checkout](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/checkout.png) | ![A reminder email](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/email.png) | ![Store → Abandoned Carts](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/cp-index.png) |
 
 ## Requirements
 

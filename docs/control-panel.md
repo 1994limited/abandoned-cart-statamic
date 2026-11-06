@@ -2,7 +2,7 @@
 
 ## Store → Abandoned Carts
 
-![Store → Abandoned Carts](images/cp-index.png)
+![Store → Abandoned Carts](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/cp-index.png)
 
 The baskets left, latest first: who left it (their email address, name, and whether they're a guest or a customer), its total and number of items, when it was left, the reminders sent (and "clicked" if the button in one was used), and its status. A basket that wasn't emailed shows why; an ordered one shows its order number.
 
@@ -42,7 +42,7 @@ Because recovered orders are counted by order date, and emailed baskets by when 
 
 ## A basket
 
-![A basket's page: its items, reminders, consent and order](images/cp-show.png)
+![A basket's page: its items, reminders, consent and order](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/cp-show.png)
 
 Click a basket to see:
 
@@ -68,7 +68,7 @@ The statuses:
 
 ## The dashboard widget
 
-![The Abandoned carts dashboard widget](images/cp-dashboard.png)
+![The Abandoned carts dashboard widget](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/cp-dashboard.png)
 
 "Abandoned carts": the last 30 days' baskets abandoned, emailed, brought back and recovered, and the revenue. It shows the scheduler warning too. Add it to `config/statamic/cp.php`:
 

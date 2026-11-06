@@ -1,6 +1,6 @@
 # Emails
 
-![A reminder email, with the basket and a one-off code](images/email.png)
+![A reminder email, with the basket and a one-off code](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/abandoned-cart/charts/email.png)
 
 Up to three reminders per basket, all from your site's mailer. Each has:
 
